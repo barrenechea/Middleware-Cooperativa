@@ -4,7 +4,7 @@ using System.Data.OleDb;
 
 namespace Middleware.Controller
 {
-    public class VisualFoxProConnector
+    public class VFPConController
     {
         private const string Provider = "VFPOLEDB.1";
         private const string DataSource = "C:\\DRYCONA4\\";

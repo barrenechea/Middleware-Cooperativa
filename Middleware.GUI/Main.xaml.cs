@@ -7,14 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Reflection;
 using Hardcodet.Wpf.TaskbarNotification;
+using MahApps.Metro.Controls.Dialogs;
 using Middleware.Controller;
 
 namespace Middleware.GUI
@@ -24,21 +19,16 @@ namespace Middleware.GUI
     /// </summary>
     public partial class Main
     {
-
-        private readonly VFPMonController _vfpMonitor;
+        private readonly VFPMonController _monitor;
         public Main()
         {
             InitializeComponent();
-            _vfpMonitor = new VFPMonController();
+            _monitor = new VFPMonController();
             TextVersion.Text = "Sincronizador de datos versión "+ Assembly.GetEntryAssembly().GetName().Version;
 
             PrepareTrayIcon();
-
             
-            _vfpMonitor.Start();
-            ShowBalloon();
-            //WindowState = WindowState.Minimized;
-            PrepareSettings();
+            ShowBalloon("El sistema de sincronización se está ejecutando en segundo plano");
         }
 
         private void PrepareTrayIcon()
@@ -57,17 +47,26 @@ namespace Middleware.GUI
         private void PrepareSettings()
         {
             LblSettingsStatus.Content = string.Empty;
+            BtnSave.IsEnabled = false;
+            CmbDrives.Items.Clear();
             var drives = Environment.GetLogicalDrives();
-
+            
             foreach (var drive in drives)
             {
                 CmbDrives.Items.Add(drive);
             }
+            CmbDatabases.Items.Clear();
+            LblSettingsStatus.Content = string.Empty;
         }
 
-        private void ShowBalloon()
+        private void ShowBalloon(string message)
         {
-            TaskIcon.ShowBalloonTip("Sincronizador de datos", "El sistema de sincronización se está ejecutando en segundo plano", BalloonIcon.Info);
+            TaskIcon.ShowBalloonTip("Sincronizador de datos", message, BalloonIcon.Info);
+        }
+        
+        private async void ShowNormalDialog(string title, string message)
+        {
+            await this.ShowMessageAsync(title, message);
         }
 
         private void Open_Click(object sender, RoutedEventArgs e)
@@ -82,7 +81,7 @@ namespace Middleware.GUI
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            _vfpMonitor.Stop();
+            _monitor.Stop();
             TaskIcon.Dispose();
             base.OnClosing(e);
         }
@@ -131,12 +130,38 @@ namespace Middleware.GUI
 
         private void BtnUpdateList_Click(object sender, RoutedEventArgs e)
         {
-
+            PrepareSettings();
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
+            var drive = $"{CmbDrives.SelectedItem}";
+            var folder = $"{CmbDatabases.SelectedItem}";
+            if (!_monitor.ChangeConfig(drive, folder))
+            {
+                ShowNormalDialog("Error", "Hay un problema con la base de datos seleccionada.");
+            }
+            else
+            {
+                LblDrive.Content = _monitor.Drive;
+                LblDbFolder.Content = _monitor.DbFolder;
+                Tabs.SelectedIndex = 0;
+                LblFoxProStatus.Content = _monitor.IsRunning ? "Operacional" : "Error";
+            }
+        }
 
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            PrepareSettings();
+            if (!_monitor.Start()) ShowNormalDialog("Error", "Verifique su configuración");
+
+            LblDrive.Content = _monitor.Drive;
+            LblDbFolder.Content = _monitor.DbFolder;
+            LblFoxProStatus.Content = _monitor.IsRunning ? "Operacional" : "Error";
+            LblOnlineStatus.Content = "Detenido";
+            //Todo eliminar estado online
+
+            if (_monitor.IsRunning) WindowState = WindowState.Minimized;
         }
     }
 }

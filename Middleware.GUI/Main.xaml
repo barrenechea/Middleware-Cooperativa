@@ -14,11 +14,11 @@
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
-        Title="Sincronizador de datos" Height="300" Width="500" ResizeMode="CanMinimize" TitleCharacterCasing="Normal" StateChanged="MetroWindow_StateChanged">
+        Title="Sincronizador de datos" Height="300" Width="500" ResizeMode="CanMinimize" TitleCharacterCasing="Normal" StateChanged="MetroWindow_StateChanged" Loaded="MetroWindow_Loaded" WindowStartupLocation="CenterScreen">
     <Grid>
         <tb:TaskbarIcon Name="TaskIcon" IconSource="/Icon/Icon.ico" ToolTipText="Sincronizador de datos" />
 
-        <dragablz:TabablzControl FixedHeaderCount="4" Visibility="Visible">
+        <dragablz:TabablzControl x:Name="Tabs" FixedHeaderCount="4" Visibility="Visible">
             <TabItem Header="Estado">
                 <Grid VerticalAlignment="Center" Margin="5">
                     <Label Content="Unidad de disco seleccionada:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
@@ -30,7 +30,7 @@
                     <Label x:Name="LblDbFolder" Content="Placeholder" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Margin="0,42,10,0" VerticalAlignment="Top" Width="229"/>
                     <Label x:Name="LblFoxProStatus" Content="Placeholder" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Margin="0,74,10,0" VerticalAlignment="Top" Width="229"/>
                     <Label x:Name="LblOnlineStatus" Content="Placeholder" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Margin="0,106,10,0" VerticalAlignment="Top" Width="229"/>
-                    <Label x:Name="LblLastSync" Content="En espera..." HorizontalAlignment="Right" HorizontalContentAlignment="Right" Margin="0,138,10,0" VerticalAlignment="Top" Width="229"/>
+                    <Label x:Name="LblLastSync" Content="En espera" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Margin="0,138,10,0" VerticalAlignment="Top" Width="229"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Configuración">

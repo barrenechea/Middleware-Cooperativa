@@ -42,7 +42,7 @@
   <ItemGroup>
     <Compile Include="IniParser.cs" />
     <Compile Include="VFPMonController.cs" />
-    <Compile Include="VisualFoxProConnector.cs" />
+    <Compile Include="VFPConController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

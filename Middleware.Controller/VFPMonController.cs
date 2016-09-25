@@ -7,23 +7,23 @@ namespace Middleware.Controller
     public class VFPMonController
     {
         private IniParser _parser;
-        private string _drive;
-        private string _dbFolder;
+        public string Drive { get; private set; }
+        public string DbFolder { get; private set; }
         private FileSystemWatcher _foxProWatcher;
-        private string directory = "C:\\DRYCONA4\\";
+        public bool IsRunning { get; private set; }
 
         public VFPMonController()
         {
             IniRead();
+            IsRunning = false;
         }
-
         private void IniRead()
         {
             if (File.Exists("config.ini"))
             {
-                _parser = new IniParser("config.ini");
-                _drive = _parser.GetSetting("MIDDLEWARE", "DRIVE");
-                _dbFolder = _parser.GetSetting("MIDDLEWARE", "DBFOLDER");
+                if(_parser == null) _parser = new IniParser("config.ini");
+                Drive = _parser.GetSetting("MIDDLEWARE", "DRIVE");
+                DbFolder = _parser.GetSetting("MIDDLEWARE", "DBFOLDER");
             }
             else
             {
@@ -33,34 +33,62 @@ namespace Middleware.Controller
                     writer.WriteLine("DRIVE=");
                     writer.WriteLine("DBFOLDER=");
                 }
-                _drive = string.Empty;
-                _dbFolder = string.Empty;
+                Drive = string.Empty;
+                DbFolder = string.Empty;
                 _parser = new IniParser("config.ini");
             }
         }
-        public bool InitialCheck()
+
+        private bool ValidateConfig()
         {
-            return !_drive.Equals(string.Empty) && !_dbFolder.Equals(string.Empty);
+            if (Drive.Equals(string.Empty) || DbFolder.Equals(string.Empty)) return false;
+
+            return File.Exists($"{Drive}DRYSOFT\\DRYCON\\{DbFolder}sesion.dbf") && File.Exists($"{Drive}DRYSOFT\\DRYCON\\{DbFolder}tabanco.dbf") &&
+                   File.Exists($"{Drive}DRYSOFT\\DRYCON\\{DbFolder}tabaux10.dbf") && File.Exists($"{Drive}DRYSOFT\\DRYCON\\{DbFolder}mae_cue.dbf");
         }
 
-        public void Start()
+        public bool ChangeConfig(string drive, string folder)
         {
-            _foxProWatcher = new FileSystemWatcher
+            if(IsRunning) { Stop();}
+            _parser.AddSetting("MIDDLEWARE", "DRIVE", drive);
+            _parser.AddSetting("MIDDLEWARE", "DBFOLDER", folder);
+            _parser.SaveSettings();
+            IniRead();
+            return Start();
+        }
+
+        public bool Start()
+        {
+            if (!ValidateConfig()) return false;
+            if (IsRunning) return true;
+            try
             {
-                Filter = "*.dbf",
-                Path = directory,
-                NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
-                               | NotifyFilters.FileName | NotifyFilters.DirectoryName
-            };
+
+                _foxProWatcher = new FileSystemWatcher
+                {
+                    Filter = "*.dbf",
+                    Path = $"{Drive}DRYSOFT\\DRYCON\\{DbFolder}",
+                    NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
+                                   | NotifyFilters.FileName | NotifyFilters.DirectoryName
+                };
 
 
-            _foxProWatcher.Changed += OnChanged;
-            _foxProWatcher.Created += OnChanged;
-            _foxProWatcher.Deleted += OnChanged;
-            _foxProWatcher.EnableRaisingEvents = true;
+                _foxProWatcher.Changed += FileChanged;
+                _foxProWatcher.Created += FileChanged;
+                _foxProWatcher.Deleted += FileChanged;
+                _foxProWatcher.EnableRaisingEvents = true;
+                IsRunning = true;
+
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
         }
 
-        private void OnChanged(object sender, FileSystemEventArgs e)
+        private void FileChanged(object sender, FileSystemEventArgs e)
         {
             if (e.Name.ToLower().Contains("sesion"))
             {
@@ -86,8 +114,10 @@ namespace Middleware.Controller
 
         public void Stop()
         {
+            if (!IsRunning) return;
             _foxProWatcher.EnableRaisingEvents = false;
             _foxProWatcher.Dispose();
+            IsRunning = false;
         }
     }
 }
