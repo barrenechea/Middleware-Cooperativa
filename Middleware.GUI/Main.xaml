@@ -14,11 +14,11 @@
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
-        Title="Sincronizador de datos" Height="400" Width="500" ResizeMode="CanMinimize" TitleCharacterCasing="Normal" StateChanged="MetroWindow_StateChanged">
+        Title="Sincronizador de datos" Height="300" Width="500" ResizeMode="CanMinimize" TitleCharacterCasing="Normal" StateChanged="MetroWindow_StateChanged">
     <Grid>
         <tb:TaskbarIcon Name="TaskIcon" IconSource="/Icon/Icon.ico" ToolTipText="Sincronizador de datos" />
-        
-        <dragablz:TabablzControl FixedHeaderCount="4">
+
+        <dragablz:TabablzControl FixedHeaderCount="4" Visibility="Visible">
             <TabItem Header="Estado">
                 <Grid VerticalAlignment="Center" Margin="5">
                     <Label Content="Unidad de disco seleccionada:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
@@ -34,7 +34,15 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Configuración">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Material Design</TextBlock>
+                <Grid VerticalAlignment="Center" Margin="5,15,5,0">
+                    <Label Content="Unidad de disco:" HorizontalAlignment="Left" Margin="10,12,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Carpeta Drysoft:" HorizontalAlignment="Left" Margin="10,46,0,0" VerticalAlignment="Top" Width="116"/>
+                    <ComboBox x:Name="CmbDrives" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="310" SelectionChanged="CmbDrives_SelectionChanged"/>
+                    <ComboBox x:Name="CmbDatabases" HorizontalAlignment="Right" Margin="0,44,10,0" VerticalAlignment="Top" Width="310" IsEnabled="False" SelectionChanged="CmbDatabases_SelectionChanged"/>
+                    <Label x:Name="LblSettingsStatus" Content="Placeholder" HorizontalContentAlignment="Center" Margin="10,103,10,0" VerticalAlignment="Top" Foreground="{DynamicResource ValidationErrorBrush}"/>
+                    <Button x:Name="BtnUpdateList" Content="Actualizar unidades de disco" HorizontalAlignment="Left" Margin="10,146,0,0" VerticalAlignment="Top" Width="220" Style="{DynamicResource MaterialDesignRaisedLightButton}" Click="BtnUpdateList_Click"/>
+                    <Button x:Name="BtnSave" Content="Guardar cambios" HorizontalAlignment="Right" Margin="0,146,10,0" VerticalAlignment="Top" Width="150" Click="BtnSave_Click"/>
+                </Grid>
             </TabItem>
             <TabItem Header="Depuración">
                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Looks Quite Nice</TextBlock>
@@ -43,7 +51,7 @@
                 <Grid>
                     <TextBlock Name="TextVersion" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,30" Text="Placeholder" />
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,-30" Text="Sincroniza Drysoft con el sistema online de gestión de la empresa" />
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,-270">Software propietario de Cooperativa de Servicios Alameda Maipú Ltda.</TextBlock>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,-180">Software propietario de Cooperativa de Servicios Alameda Maipú Ltda.</TextBlock>
                 </Grid>
             </TabItem>
         </dragablz:TabablzControl>

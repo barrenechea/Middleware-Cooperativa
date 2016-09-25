@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,17 +29,16 @@ namespace Middleware.GUI
         public Main()
         {
             InitializeComponent();
-
+            _vfpMonitor = new VFPMonController();
             TextVersion.Text = "Sincronizador de datos versión "+ Assembly.GetEntryAssembly().GetName().Version;
 
             PrepareTrayIcon();
 
-            _vfpMonitor = new VFPMonController();
-            _vfpMonitor.Start();
             
-            //WindowState = WindowState.Minimized;
-
+            _vfpMonitor.Start();
             ShowBalloon();
+            //WindowState = WindowState.Minimized;
+            PrepareSettings();
         }
 
         private void PrepareTrayIcon()
@@ -52,6 +52,17 @@ namespace Middleware.GUI
             contextMenu.Items.Add(open);
             contextMenu.Items.Add(quit);
             TaskIcon.ContextMenu = contextMenu;
+        }
+
+        private void PrepareSettings()
+        {
+            LblSettingsStatus.Content = string.Empty;
+            var drives = Environment.GetLogicalDrives();
+
+            foreach (var drive in drives)
+            {
+                CmbDrives.Items.Add(drive);
+            }
         }
 
         private void ShowBalloon()
@@ -79,6 +90,53 @@ namespace Middleware.GUI
         private void MetroWindow_StateChanged(object sender, EventArgs e)
         {
             ShowInTaskbar = WindowState != WindowState.Minimized;
+        }
+
+        private void CmbDrives_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!Directory.Exists(CmbDrives.SelectedItem + "DRYSOFT\\DRYCON\\"))
+            {
+                LblSettingsStatus.Content = $"¡La unidad {CmbDrives.SelectedItem} no posee sistema Drysoft!";
+                CmbDatabases.IsEnabled = false;
+                CmbDatabases.SelectedIndex = -1;
+            }
+            else
+            {
+                LblSettingsStatus.Content = string.Empty;
+                CmbDatabases.IsEnabled = true;
+                CmbDatabases.Items.Clear();
+                var dirs = Directory.GetDirectories(CmbDrives.SelectedItem + "DRYSOFT\\DRYCON\\", "DRYCON*");
+                foreach (var dir in dirs)
+                {
+                    CmbDatabases.Items.Add($"{dir.Replace(CmbDrives.SelectedItem + "DRYSOFT\\DRYCON\\", string.Empty)}\\");
+                }
+            }
+        }
+
+        private void CmbDatabases_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var fullDirectory = CmbDrives.SelectedItem + "DRYSOFT\\DRYCON\\" + CmbDatabases.SelectedItem;
+            if (File.Exists(fullDirectory + "sesion.dbf") && File.Exists(fullDirectory + "tabanco.dbf") &&
+                File.Exists(fullDirectory + "tabaux10.dbf") && File.Exists(fullDirectory + "mae_cue.dbf"))
+            {
+                BtnSave.IsEnabled = true;
+                LblSettingsStatus.Content = string.Empty;
+            }
+            else
+            {
+                BtnSave.IsEnabled = false;
+                LblSettingsStatus.Content = "¡La carpeta seleccionada no parece ser válida!";
+            }
+        }
+
+        private void BtnUpdateList_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnSave_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
