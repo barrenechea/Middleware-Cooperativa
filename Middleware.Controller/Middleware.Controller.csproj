@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IniParser.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="VFPMonController.cs" />
     <Compile Include="VFPConController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

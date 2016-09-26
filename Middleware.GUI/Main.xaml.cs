@@ -19,7 +19,10 @@ namespace Middleware.GUI
     /// </summary>
     public partial class Main
     {
+        #region Attributes
         private readonly VFPMonController _monitor;
+        #endregion
+        #region Constructor
         public Main()
         {
             InitializeComponent();
@@ -30,7 +33,8 @@ namespace Middleware.GUI
             
             ShowBalloon("El sistema de sincronización se está ejecutando en segundo plano");
         }
-
+        #endregion
+        #region Methods
         private void PrepareTrayIcon()
         {
             TaskIcon.MenuActivation = PopupActivationMode.LeftOrRightClick;
@@ -66,9 +70,10 @@ namespace Middleware.GUI
         
         private async void ShowNormalDialog(string title, string message)
         {
-            await this.ShowMessageAsync(title, message);
+            await this.ShowMessageAsync(title, message, MessageDialogStyle.Affirmative, new MetroDialogSettings { SuppressDefaultResources = true, CustomResourceDictionary = new ResourceDictionary { Source = new Uri("pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Dialogs.xaml") } });
         }
-
+        #endregion
+        #region Event Handler methods
         private void Open_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState == WindowState.Minimized ? WindowState.Normal : WindowState.Minimized;
@@ -163,5 +168,6 @@ namespace Middleware.GUI
 
             if (_monitor.IsRunning) WindowState = WindowState.Minimized;
         }
+        #endregion
     }
 }

@@ -18,7 +18,7 @@
     <Grid>
         <tb:TaskbarIcon Name="TaskIcon" IconSource="/Icon/Icon.ico" ToolTipText="Sincronizador de datos" />
 
-        <dragablz:TabablzControl x:Name="Tabs" FixedHeaderCount="4" Visibility="Visible">
+        <dragablz:TabablzControl x:Name="Tabs" FixedHeaderCount="3" Visibility="Visible">
             <TabItem Header="Estado">
                 <Grid VerticalAlignment="Center" Margin="5">
                     <Label Content="Unidad de disco seleccionada:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
@@ -43,9 +43,6 @@
                     <Button x:Name="BtnUpdateList" Content="Actualizar unidades de disco" HorizontalAlignment="Left" Margin="10,146,0,0" VerticalAlignment="Top" Width="220" Style="{DynamicResource MaterialDesignRaisedLightButton}" Click="BtnUpdateList_Click"/>
                     <Button x:Name="BtnSave" Content="Guardar cambios" HorizontalAlignment="Right" Margin="0,146,10,0" VerticalAlignment="Top" Width="150" Click="BtnSave_Click"/>
                 </Grid>
-            </TabItem>
-            <TabItem Header="Depuración">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Looks Quite Nice</TextBlock>
             </TabItem>
             <TabItem Header="Acerca de">
                 <Grid>

@@ -1,22 +1,25 @@
-﻿using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 
 namespace Middleware.Controller
 {
 
     public class VFPMonController
     {
+        #region Attributes
         private IniParser _parser;
         public string Drive { get; private set; }
         public string DbFolder { get; private set; }
         private FileSystemWatcher _foxProWatcher;
         public bool IsRunning { get; private set; }
-
+        #endregion
+        #region Constructor
         public VFPMonController()
         {
             IniRead();
             IsRunning = false;
         }
+        #endregion
+        #region Methods
         private void IniRead()
         {
             if (File.Exists("config.ini"))
@@ -27,6 +30,7 @@ namespace Middleware.Controller
             }
             else
             {
+                Log.Add("El archivo config.ini no existe");
                 using (var writer = new StreamWriter("config.ini"))
                 {
                     writer.WriteLine("[MIDDLEWARE]");
@@ -36,6 +40,7 @@ namespace Middleware.Controller
                 Drive = string.Empty;
                 DbFolder = string.Empty;
                 _parser = new IniParser("config.ini");
+                Log.Add("Se creó el archivo config.ini");
             }
         }
 
@@ -54,12 +59,17 @@ namespace Middleware.Controller
             _parser.AddSetting("MIDDLEWARE", "DBFOLDER", folder);
             _parser.SaveSettings();
             IniRead();
+            Log.Add("Se actualizó el archivo config.ini");
             return Start();
         }
 
         public bool Start()
         {
-            if (!ValidateConfig()) return false;
+            if (!ValidateConfig())
+            {
+                Log.Add($"Ocurrió un error al validar el directorio {Drive}DRYSOFT\\DRYCON\\{DbFolder}");
+                return false;
+            }
             if (IsRunning) return true;
             try
             {
@@ -78,36 +88,36 @@ namespace Middleware.Controller
                 _foxProWatcher.Deleted += FileChanged;
                 _foxProWatcher.EnableRaisingEvents = true;
                 IsRunning = true;
-
+                Log.Add($"Se inició monitoreo al directorio {Drive}DRYSOFT\\DRYCON\\{DbFolder}");
+                return true;
             }
             catch
             {
+                Log.Add($"Ocurrió un error al intentar monitorear el directorio {Drive}DRYSOFT\\DRYCON\\{DbFolder}");
                 return false;
             }
-
-            return true;
         }
 
         private void FileChanged(object sender, FileSystemEventArgs e)
         {
             if (e.Name.ToLower().Contains("sesion"))
             {
-                Debug.WriteLine($"Cambio en el archivo {e.Name}");
+                Log.Add($"Cambio en el archivo {e.Name}");
                 //Todo sesion.dbf logic
             }
             else if (e.Name.ToLower().Contains("tabanco"))
             {
-                Debug.WriteLine($"Cambio en el archivo {e.Name}");
+                Log.Add($"Cambio en el archivo {e.Name}");
                 //Todo tabanco.dbf logic
             }
             else if (e.Name.ToLower().Contains("tabaux10"))
             {
-                Debug.WriteLine($"Cambio en el archivo {e.Name}");
+                Log.Add($"Cambio en el archivo {e.Name}");
                 //Todo tabaux10.dbf logic
             }
             else if (e.Name.ToLower().Contains("mae_cue"))
             {
-                Debug.WriteLine($"Cambio en el archivo {e.Name}");
+                Log.Add($"Cambio en el archivo {e.Name}");
                 //Todo mae_cue.dbf logic
             }
         }
@@ -118,6 +128,8 @@ namespace Middleware.Controller
             _foxProWatcher.EnableRaisingEvents = false;
             _foxProWatcher.Dispose();
             IsRunning = false;
+            Log.Add($"Se detuvo monitoreo al directorio {Drive}DRYSOFT\\DRYCON\\{DbFolder}");
         }
+        #endregion
     }
 }
