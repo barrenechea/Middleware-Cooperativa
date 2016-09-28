@@ -2,7 +2,9 @@
 
 namespace Middleware.Controller
 {
-
+    /// <summary>
+    /// Visual FoxPro Monitor Controller
+    /// </summary>
     public class VFPMonController
     {
         #region Attributes
