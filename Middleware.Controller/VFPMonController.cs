@@ -1,4 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using Middleware.Models.Local;
+using RestSharp;
 
 namespace Middleware.Controller
 {
@@ -105,7 +113,17 @@ namespace Middleware.Controller
             if (e.Name.ToLower().Contains("sesion"))
             {
                 Log.Add($"Cambio en el archivo {e.Name}");
-                //Todo sesion.dbf logic
+                
+                var localList = VFPConController.GetSesionList();
+                var apiList = RestController.GetSesion(DbFolder);
+
+                //Todo Comparison logic
+
+                foreach (var sesion in localList)
+                {
+                    RestController.PostSesion(sesion, DbFolder);
+                }
+                
             }
             else if (e.Name.ToLower().Contains("tabanco"))
             {
@@ -131,6 +149,30 @@ namespace Middleware.Controller
             _foxProWatcher.Dispose();
             IsRunning = false;
             Log.Add($"Se detuvo monitoreo al directorio {Drive}DRYSOFT\\DRYCON\\{DbFolder}");
+        }
+        #endregion
+
+        #region Datatable to List methods
+        private List<T> ConvertDataTable<T>(DataTable dt)
+        {
+            return (from DataRow row in dt.Rows select GetItem<T>(row)).ToList();
+        }
+        private T GetItem<T>(DataRow dr)
+        {
+            var temp = typeof(T);
+            var obj = Activator.CreateInstance<T>();
+
+            foreach (DataColumn column in dr.Table.Columns)
+            {
+                foreach (var pro in temp.GetProperties())
+                {
+                    if (pro.Name == column.ColumnName)
+                        pro.SetValue(obj, dr[column.ColumnName], null);
+                    else
+                        continue;
+                }
+            }
+            return obj;
         }
         #endregion
     }
