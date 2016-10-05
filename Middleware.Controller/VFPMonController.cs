@@ -132,12 +132,38 @@ namespace Middleware.Controller
             else if (e.Name.ToLower().Contains("tabanco"))
             {
                 Log.Add($"Cambio en el archivo {e.Name}");
-                //Todo tabanco.dbf logic
+
+                var localList = VFPConController.GetTabancoList();
+                var apiList = RestController.GetTabanco(DbFolder);
+
+                //Todo Comparison logic
+
+                foreach (var tabanco in localList)
+                {
+                    if (!RestController.PostTabanco(tabanco, DbFolder))
+                    {
+                        // Todo logic
+                        throw new Exception();
+                    }
+                }
             }
             else if (e.Name.ToLower().Contains("tabaux10"))
             {
                 Log.Add($"Cambio en el archivo {e.Name}");
-                //Todo tabaux10.dbf logic
+
+                var localList = VFPConController.GetTabaux10List();
+                var apiList = RestController.GetTabaux10(DbFolder);
+
+                //Todo Comparison logic
+
+                foreach (var tabaux10 in localList)
+                {
+                    if (!RestController.PostTabaux10(tabaux10, DbFolder))
+                    {
+                        // Todo logic
+                        throw new Exception();
+                    }
+                }
             }
             else if (e.Name.ToLower().Contains("mae_cue"))
             {
@@ -148,9 +174,9 @@ namespace Middleware.Controller
 
                 //Todo Comparison logic
 
-                foreach (var sesion in localList)
+                foreach (var maecue in localList)
                 {
-                    if (!RestController.PostMaeCue(sesion, DbFolder))
+                    if (!RestController.PostMaeCue(maecue, DbFolder))
                     {
                         // Todo logic
                         throw new Exception();

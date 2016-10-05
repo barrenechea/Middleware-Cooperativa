@@ -42,8 +42,12 @@
   <ItemGroup>
     <Compile Include="API\APIMaeCue.cs" />
     <Compile Include="API\APISesion.cs" />
+    <Compile Include="API\APITabanco.cs" />
+    <Compile Include="API\APITabaux10.cs" />
     <Compile Include="Local\VFPMaeCue.cs" />
     <Compile Include="Local\VFPSesion.cs" />
+    <Compile Include="Local\VFPTabanco.cs" />
+    <Compile Include="Local\VFPTabaux10.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -68,5 +68,57 @@ namespace Middleware.Controller
             return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
         }
         #endregion
+        #region Tabanco
+        public static List<APITabanco> GetTabanco(string dbFolder)
+        {
+            var request = new RestRequest("tabanco", Method.GET);
+            request.AddHeader("authorization", AuthKey);
+            request.AddParameter("vfptable", dbFolder);
+
+            var response = Client.Execute<List<APITabanco>>(request);
+            Debug.WriteLine("GET: Tabanco table fetched from API");
+
+            return response.Data ?? new List<APITabanco>();
+        }
+
+        public static bool PostTabanco(VFPTabanco tabanco, string dbFolder)
+        {
+            var request = new RestRequest("tabanco", Method.POST);
+            request.AddHeader("authorization", AuthKey);
+            request.AddParameter("vfptable", dbFolder);
+            request.AddObject(tabanco);
+
+            var response = Client.Execute(request);
+            Debug.WriteLine($"POST: [{tabanco.codbanco}] {response.Content}");
+
+            return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
+        }
+        #endregion
+        #region Tabaux10
+        public static List<APITabaux10> GetTabaux10(string dbFolder)
+        {
+            var request = new RestRequest("tabaux10", Method.GET);
+            request.AddHeader("authorization", AuthKey);
+            request.AddParameter("vfptable", dbFolder);
+
+            var response = Client.Execute<List<APITabaux10>>(request);
+            Debug.WriteLine("GET: Tabaux10 table fetched from API");
+
+            return response.Data ?? new List<APITabaux10>();
+        }
+
+        public static bool PostTabaux10(VFPTabaux10 tabaux10, string dbFolder)
+        {
+            var request = new RestRequest("tabaux10", Method.POST);
+            request.AddHeader("authorization", AuthKey);
+            request.AddParameter("vfptable", dbFolder);
+            request.AddObject(tabaux10);
+
+            var response = Client.Execute(request);
+            Debug.WriteLine($"POST: [{tabaux10.kod}] {response.Content}");
+
+            return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
+        }
+        #endregion
     }
 }

@@ -42,7 +42,7 @@ namespace Middleware.Controller
                 dbConnection.Close();
             }
             _parser = null;
-            
+
             for (var i = 0; i < resultSet.Rows.Count; i++)
             {
                 var sesion = new VFPSesion
@@ -81,8 +81,9 @@ namespace Middleware.Controller
 
             return list;
         }
-        public static DataTable GetTabancoTable()
+        public static List<VFPTabanco> GetTabancoList()
         {
+            var list = new List<VFPTabanco>();
             var resultSet = new DataTable();
             _parser = new IniParser("config.ini");
             var dataSource = $"{_parser.GetSetting("MIDDLEWARE", "DRIVE")}DRYSOFT\\DRYCON\\{_parser.GetSetting("MIDDLEWARE", "DBFOLDER")}";
@@ -91,7 +92,7 @@ namespace Middleware.Controller
             {
                 dbConnection.Open();
 
-                if (dbConnection.State != ConnectionState.Open) return resultSet;
+                if (dbConnection.State != ConnectionState.Open) return list;
 
                 using (var dataAdapter = new OleDbDataAdapter())
                 {
@@ -106,10 +107,43 @@ namespace Middleware.Controller
                 dbConnection.Close();
             }
             _parser = null;
-            return resultSet;
+
+            for (var i = 0; i < resultSet.Rows.Count; i++)
+            {
+                var tabanco = new VFPTabanco
+                {
+                    codempre = resultSet.Rows[i]["CODEMPRE"].ToString().Trim(),
+                    codbanco = resultSet.Rows[i]["CODBANCO"].ToString().Trim(),
+                    nombanco = resultSet.Rows[i]["NOMBANCO"].ToString().Trim(),
+                    codctacc = resultSet.Rows[i]["CODCTACC"].ToString().Trim(),
+                    ctacc = resultSet.Rows[i]["CTACC"].ToString().Trim(),
+                    ctacontab = resultSet.Rows[i]["CTACONTAB"].ToString().Trim(),
+                    chequeact = Convert.ToInt32(resultSet.Rows[i]["CHEQUEACT"]),
+                    chequefin = Convert.ToInt32(resultSet.Rows[i]["CHEQUEFIN"]),
+                    ingreact = Convert.ToInt32(resultSet.Rows[i]["INGREACT"]),
+                    ingrefin = Convert.ToInt32(resultSet.Rows[i]["INGREFIN"]),
+                    egreact = Convert.ToInt32(resultSet.Rows[i]["EGREACT"]),
+                    egrefin = Convert.ToInt32(resultSet.Rows[i]["EGREFIN"]),
+                    trasact = Convert.ToInt32(resultSet.Rows[i]["TRASACT"]),
+                    trasfin = Convert.ToInt32(resultSet.Rows[i]["TRASFIN"]),
+                    compact = Convert.ToInt32(resultSet.Rows[i]["COMPACT"]),
+                    compfin = Convert.ToInt32(resultSet.Rows[i]["COMPFIN"]),
+                    ventact = Convert.ToInt32(resultSet.Rows[i]["VENTACT"]),
+                    ventfin = Convert.ToInt32(resultSet.Rows[i]["VENTFIN"]),
+                    uniact = Convert.ToInt32(resultSet.Rows[i]["UNIACT"]),
+                    estado = Convert.ToBoolean(resultSet.Rows[i]["ESTADO"]),
+                    ano = Convert.ToInt32(resultSet.Rows[i]["ANO"]),
+                    flg_ing = Convert.ToBoolean(resultSet.Rows[i]["FLG_ING"])
+                };
+
+                list.Add(tabanco);
+            }
+
+            return list;
         }
-        public static DataTable GetTabaux10Table()
+        public static List<VFPTabaux10> GetTabaux10List()
         {
+            var list = new List<VFPTabaux10>();
             var resultSet = new DataTable();
             _parser = new IniParser("config.ini");
             var dataSource = $"{_parser.GetSetting("MIDDLEWARE", "DRIVE")}DRYSOFT\\DRYCON\\{_parser.GetSetting("MIDDLEWARE", "DBFOLDER")}";
@@ -118,7 +152,7 @@ namespace Middleware.Controller
             {
                 dbConnection.Open();
 
-                if (dbConnection.State != ConnectionState.Open) return resultSet;
+                if (dbConnection.State != ConnectionState.Open) return list;
 
                 using (var dataAdapter = new OleDbDataAdapter())
                 {
@@ -133,7 +167,70 @@ namespace Middleware.Controller
                 dbConnection.Close();
             }
             _parser = null;
-            return resultSet;
+
+            for (var i = 0; i < resultSet.Rows.Count; i++)
+            {
+                var tabanco = new VFPTabaux10
+                {
+                    tipo = resultSet.Rows[i]["TIPO"].ToString().Trim(),
+                    kod = resultSet.Rows[i]["KOD"].ToString().Trim(),
+                    sucur = resultSet.Rows[i]["SUCUR"].ToString().Trim(),
+                    desc = resultSet.Rows[i]["DESC"].ToString().Trim(),
+                    orden_patr = Convert.ToInt32(resultSet.Rows[i]["ORDEN_PATR"]),
+                    estado = resultSet.Rows[i]["ESTADO"].ToString().Trim(),
+                    giro = resultSet.Rows[i]["GIRO"].ToString().Trim(),
+                    tipo_calle = Convert.ToInt32(resultSet.Rows[i]["TIPO_CALLE"]),
+                    direccion = resultSet.Rows[i]["DIRECCION"].ToString().Trim(),
+                    num = resultSet.Rows[i]["NUM"].ToString().Trim(),
+                    depto = resultSet.Rows[i]["DEPTO"].ToString().Trim(),
+                    sector = resultSet.Rows[i]["SECTOR"].ToString().Trim(),
+                    edificio = resultSet.Rows[i]["EDIFICIO"].ToString().Trim(),
+                    num_piso = Convert.ToInt32(resultSet.Rows[i]["NUM_PISO"]),
+                    entre_call = resultSet.Rows[i]["ENTRE_CALL"].ToString().Trim(),
+                    codcom = resultSet.Rows[i]["CODCOM"].ToString().Trim(),
+                    comuna = resultSet.Rows[i]["COMUNA"].ToString().Trim(),
+                    nom_region = resultSet.Rows[i]["NOM_REGION"].ToString().Trim(),
+                    region = Convert.ToInt32(resultSet.Rows[i]["REGION"]),
+                    codciu = resultSet.Rows[i]["CODCIU"].ToString().Trim(),
+                    ciudad = resultSet.Rows[i]["CIUDAD"].ToString().Trim(),
+                    cod_postal = resultSet.Rows[i]["COD_POSTAL"].ToString().Trim(),
+                    mail = resultSet.Rows[i]["MAIL"].ToString().Trim(),
+                    telefono = resultSet.Rows[i]["TELEFONO"].ToString().Trim(),
+                    anexo = resultSet.Rows[i]["ANEXO"].ToString().Trim(),
+                    fax = resultSet.Rows[i]["FAX"].ToString().Trim(),
+                    telefono_c = resultSet.Rows[i]["TELEFONO_C"].ToString().Trim(),
+                    fax_c = resultSet.Rows[i]["FAX_C"].ToString().Trim(),
+                    internet = resultSet.Rows[i]["INTERNET"].ToString().Trim(),
+                    cod_area = resultSet.Rows[i]["COD_AREA"].ToString().Trim(),
+                    celular = resultSet.Rows[i]["CELULAR"].ToString().Trim(),
+                    casilla = resultSet.Rows[i]["CASILLA"].ToString().Trim(),
+                    fecha = Convert.ToDateTime(resultSet.Rows[i]["FECHA"]).ToString("yyyy-MM-dd"),
+                    fpago = resultSet.Rows[i]["FPAGO"].ToString().Trim(),
+                    contacto = resultSet.Rows[i]["CONTACTO"].ToString().Trim(),
+                    telconta = resultSet.Rows[i]["TELCONTA"].ToString().Trim(),
+                    vendedor = resultSet.Rows[i]["VENDEDOR"].ToString().Trim(),
+                    observ = resultSet.Rows[i]["OBSERV"].ToString().Trim(),
+                    saldoau = Convert.ToInt32(resultSet.Rows[i]["SALDOAU"]),
+                    exporta = resultSet.Rows[i]["EXPORTA"].ToString().Trim(),
+                    credito = Convert.ToInt32(resultSet.Rows[i]["CREDITO"]),
+                    zona = resultSet.Rows[i]["ZONA"].ToString().Trim(),
+                    direccions = resultSet.Rows[i]["DIRECCIONS"].ToString().Trim(),
+                    telefonos = resultSet.Rows[i]["TELEFONOS"].ToString().Trim(),
+                    mails = resultSet.Rows[i]["MAILS"].ToString().Trim(),
+                    contactos = resultSet.Rows[i]["CONTACTOS"].ToString().Trim(),
+                    codcoms = resultSet.Rows[i]["CODCOMS"].ToString().Trim(),
+                    comunas = resultSet.Rows[i]["COMUNAS"].ToString().Trim(),
+                    codcius = resultSet.Rows[i]["CODCIUS"].ToString().Trim(),
+                    ciudads = resultSet.Rows[i]["CIUDADS"].ToString().Trim(),
+                    concredito = Convert.ToBoolean(resultSet.Rows[i]["CONCREDITO"]),
+                    codpais = resultSet.Rows[i]["CODPAIS"].ToString().Trim(),
+                    pais = resultSet.Rows[i]["PAIS"].ToString().Trim(),
+                    segmento = resultSet.Rows[i]["SEGMENTO"].ToString().Trim()
+                };
+
+                list.Add(tabanco);
+            }
+            return list;
         }
         public static List<VFPMaeCue> GetMaeCueList()
         {
