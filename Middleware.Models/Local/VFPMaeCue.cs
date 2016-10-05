@@ -1,0 +1,71 @@
+﻿namespace Middleware.Models.Local
+{
+    public class VFPMaeCue
+    {
+        public string codigo { get; set; }
+        public string codigofecu { get; set; }
+        public string clase { get; set; }
+        public string nivel { get; set; }
+        public string subcta { get; set; }
+        public string ctacte { get; set; }
+        public string ctacte2 { get; set; }
+        public string ctacte3 { get; set; }
+        public string ctacte4 { get; set; }
+        public string estado { get; set; }
+        public string estado2 { get; set; }
+        public string nombre { get; set; }
+        public int codi { get; set; }
+        public int debe0 { get; set; }
+        public int haber0 { get; set; }
+        public int debe1 { get; set; }
+        public int haber1 { get; set; }
+        public int debe2 { get; set; }
+        public int haber2 { get; set; }
+        public int debe3 { get; set; }
+        public int haber3 { get; set; }
+        public int debe4 { get; set; }
+        public int haber4 { get; set; }
+        public int debe5 { get; set; }
+        public int haber5 { get; set; }
+        public int debe6 { get; set; }
+        public int haber6 { get; set; }
+        public int debe7 { get; set; }
+        public int haber7 { get; set; }
+        public int debe8 { get; set; }
+        public int haber8 { get; set; }
+        public int debe9 { get; set; }
+        public int haber9 { get; set; }
+        public int debe10 { get; set; }
+        public int haber10 { get; set; }
+        public int debe11 { get; set; }
+        public int haber11 { get; set; }
+        public int debe12 { get; set; }
+        public int haber12 { get; set; }
+        public int debep0 { get; set; }
+        public int haberp0 { get; set; }
+        public int debep1 { get; set; }
+        public int haberp1 { get; set; }
+        public int debep2 { get; set; }
+        public int haberp2 { get; set; }
+        public int debep3 { get; set; }
+        public int haberp3 { get; set; }
+        public int debep4 { get; set; }
+        public int haberp4 { get; set; }
+        public int debep5 { get; set; }
+        public int haberp5 { get; set; }
+        public int debep6 { get; set; }
+        public int haberp6 { get; set; }
+        public int debep7 { get; set; }
+        public int haberp7 { get; set; }
+        public int debep8 { get; set; }
+        public int haberp8 { get; set; }
+        public int debep9 { get; set; }
+        public int haberp9 { get; set; }
+        public int debep10 { get; set; }
+        public int haberp10 { get; set; }
+        public int debep11 { get; set; }
+        public int haberp11 { get; set; }
+        public int debep12 { get; set; }
+        public int haberp12 { get; set; }
+    }
+}

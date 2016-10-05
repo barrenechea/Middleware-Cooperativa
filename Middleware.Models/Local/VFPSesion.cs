@@ -4,7 +4,7 @@ namespace Middleware.Models.Local
 {
     public class VFPSesion
     {
-        public char tipo { get; set; }
+        public string tipo { get; set; }
         public int numero { get; set; }
         public int correl { get; set; }
         public int va_ifrs { get; set; }
@@ -27,11 +27,9 @@ namespace Middleware.Models.Local
         public string detalle2 { get; set; }
         public string detalle3 { get; set; }
         public string detalle4 { get; set; }
-        public char imp { get; set; }
+        public string imp { get; set; }
         public int debe { get; set; }
         public int haber { get; set; }
-        public char estado { get; set; }
-
-
+        public string estado { get; set; }
     }
 }

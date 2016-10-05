@@ -121,7 +121,11 @@ namespace Middleware.Controller
 
                 foreach (var sesion in localList)
                 {
-                    RestController.PostSesion(sesion, DbFolder);
+                    if (!RestController.PostSesion(sesion, DbFolder))
+                    {
+                        // Todo logic
+                        throw new Exception();
+                    }
                 }
                 
             }
@@ -138,7 +142,20 @@ namespace Middleware.Controller
             else if (e.Name.ToLower().Contains("mae_cue"))
             {
                 Log.Add($"Cambio en el archivo {e.Name}");
-                //Todo mae_cue.dbf logic
+
+                var localList = VFPConController.GetMaeCueList();
+                var apiList = RestController.GetMaeCue(DbFolder);
+
+                //Todo Comparison logic
+
+                foreach (var sesion in localList)
+                {
+                    if (!RestController.PostMaeCue(sesion, DbFolder))
+                    {
+                        // Todo logic
+                        throw new Exception();
+                    }
+                }
             }
         }
 
