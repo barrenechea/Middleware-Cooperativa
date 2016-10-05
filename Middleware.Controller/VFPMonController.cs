@@ -136,15 +136,19 @@ namespace Middleware.Controller
                 var localList = VFPConController.GetTabancoList();
                 var apiList = RestController.GetTabanco(DbFolder);
 
-                //Todo Comparison logic
+                var news = ComparisonController.GetNewObjects(localList, apiList);
+                var updated = ComparisonController.GetUpdatedObjects(localList, apiList);
 
-                foreach (var tabanco in localList)
+                foreach (var obj in news)
                 {
-                    if (!RestController.PostTabanco(tabanco, DbFolder))
-                    {
-                        // Todo logic
-                        throw new Exception();
-                    }
+                    if (!RestController.PostTabanco(obj, DbFolder))
+                        Log.Add($"Failed to insert object {obj.codbanco} in Tabanco");
+                }
+
+                foreach (var obj in updated)
+                {
+                    if (!RestController.PutTabanco(obj.Item1, obj.Item2, DbFolder))
+                        Log.Add($"Failed to update object {obj.Item1} in Tabanco");
                 }
             }
             else if (e.Name.ToLower().Contains("tabaux10"))

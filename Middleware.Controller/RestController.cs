@@ -93,6 +93,20 @@ namespace Middleware.Controller
 
             return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
         }
+
+        public static bool PutTabanco(int id, VFPTabanco tabanco, string dbFolder)
+        {
+            var request = new RestRequest("tabanco/{id}", Method.PUT);
+            request.AddHeader("authorization", AuthKey);
+            request.AddUrlSegment("id", id.ToString());
+            request.AddParameter("vfptable", dbFolder);
+            request.AddObject(tabanco);
+
+            var response = Client.Execute(request);
+            Debug.WriteLine($"PUT: [{tabanco.codbanco}] {response.Content}");
+
+            return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
+        }
         #endregion
         #region Tabaux10
         public static List<APITabaux10> GetTabaux10(string dbFolder)
