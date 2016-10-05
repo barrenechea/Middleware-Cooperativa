@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using Middleware.Models.API;
 using Middleware.Models.Local;
 using RestSharp;
@@ -41,6 +37,20 @@ namespace Middleware.Controller
 
             return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
         }
+
+        public static bool PutSesion(int id, VFPSesion sesion, string dbFolder)
+        {
+            var request = new RestRequest("sesion/{id}", Method.PUT);
+            request.AddHeader("authorization", AuthKey);
+            request.AddUrlSegment("id", id.ToString());
+            request.AddParameter("vfptable", dbFolder);
+            request.AddObject(sesion);
+
+            var response = Client.Execute(request);
+            Debug.WriteLine($"PUT Sesion: [{id}][{sesion.numero}] {response.Content}");
+
+            return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
+        }
         #endregion
         #region MaeCue
         public static List<APIMaeCue> GetMaeCue(string dbFolder)
@@ -64,6 +74,20 @@ namespace Middleware.Controller
 
             var response = Client.Execute(request);
             Debug.WriteLine($"POST: [{maeCue.codigo}] {response.Content}");
+
+            return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
+        }
+
+        public static bool PutMaeCue(int id, VFPMaeCue maeCue, string dbFolder)
+        {
+            var request = new RestRequest("maecue/{id}", Method.PUT);
+            request.AddHeader("authorization", AuthKey);
+            request.AddUrlSegment("id", id.ToString());
+            request.AddParameter("vfptable", dbFolder);
+            request.AddObject(maeCue);
+
+            var response = Client.Execute(request);
+            Debug.WriteLine($"PUT MaeCue: [{id}][{maeCue.codigo}] {response.Content}");
 
             return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
         }
@@ -103,7 +127,7 @@ namespace Middleware.Controller
             request.AddObject(tabanco);
 
             var response = Client.Execute(request);
-            Debug.WriteLine($"PUT: [{tabanco.codbanco}] {response.Content}");
+            Debug.WriteLine($"PUT Tabanco: [{id}][{tabanco.codbanco}] {response.Content}");
 
             return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
         }
@@ -133,6 +157,21 @@ namespace Middleware.Controller
 
             return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
         }
+        public static bool PutTabaux10(int id, VFPTabaux10 tabaux10, string dbFolder)
+        {
+            var request = new RestRequest("tabaux10/{id}", Method.PUT);
+            request.AddHeader("authorization", AuthKey);
+            request.AddUrlSegment("id", id.ToString());
+            request.AddParameter("vfptable", dbFolder);
+            request.AddObject(tabaux10);
+
+            var response = Client.Execute(request);
+            Debug.WriteLine($"PUT Tabaux10: [{id}][{tabaux10.kod}] {response.Content}");
+
+            return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
+        }
         #endregion
+
+        // TERMINADO! Creo
     }
 }
