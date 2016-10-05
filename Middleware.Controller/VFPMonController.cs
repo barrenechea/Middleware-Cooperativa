@@ -117,17 +117,21 @@ namespace Middleware.Controller
                 var localList = VFPConController.GetSesionList();
                 var apiList = RestController.GetSesion(DbFolder);
 
-                //Todo Comparison logic
+                var news = ComparisonController.GetNewObjects(localList, apiList);
+                var updated = ComparisonController.GetUpdatedObjects(localList, apiList);
 
-                foreach (var sesion in localList)
+                foreach (var obj in news)
                 {
-                    if (!RestController.PostSesion(sesion, DbFolder))
-                    {
-                        // Todo logic
-                        throw new Exception();
-                    }
+                    if (!RestController.PostSesion(obj, DbFolder))
+                        Log.Add($"Failed to insert object {obj.numero} in Sesion");
                 }
-                
+
+                foreach (var obj in updated)
+                {
+                    if (!RestController.PutSesion(obj.Item1, obj.Item2, DbFolder))
+                        Log.Add($"Failed to update object {obj.Item1} in Sesion");
+                }
+
             }
             else if (e.Name.ToLower().Contains("tabanco"))
             {
@@ -158,15 +162,20 @@ namespace Middleware.Controller
                 var localList = VFPConController.GetTabaux10List();
                 var apiList = RestController.GetTabaux10(DbFolder);
 
-                //Todo Comparison logic
 
-                foreach (var tabaux10 in localList)
+                var news = ComparisonController.GetNewObjects(localList, apiList);
+                var updated = ComparisonController.GetUpdatedObjects(localList, apiList);
+
+                foreach (var obj in news)
                 {
-                    if (!RestController.PostTabaux10(tabaux10, DbFolder))
-                    {
-                        // Todo logic
-                        throw new Exception();
-                    }
+                    if (!RestController.PostTabaux10(obj, DbFolder))
+                        Log.Add($"Failed to insert object {obj.kod} in Tabaux10");
+                }
+
+                foreach (var obj in updated)
+                {
+                    if (!RestController.PutTabaux10(obj.Item1, obj.Item2, DbFolder))
+                        Log.Add($"Failed to update object {obj.Item1} in Tabaux10");
                 }
             }
             else if (e.Name.ToLower().Contains("mae_cue"))
@@ -175,16 +184,20 @@ namespace Middleware.Controller
 
                 var localList = VFPConController.GetMaeCueList();
                 var apiList = RestController.GetMaeCue(DbFolder);
+                
+                var news = ComparisonController.GetNewObjects(localList, apiList);
+                var updated = ComparisonController.GetUpdatedObjects(localList, apiList);
 
-                //Todo Comparison logic
-
-                foreach (var maecue in localList)
+                foreach (var obj in news)
                 {
-                    if (!RestController.PostMaeCue(maecue, DbFolder))
-                    {
-                        // Todo logic
-                        throw new Exception();
-                    }
+                    if (!RestController.PostMaeCue(obj, DbFolder))
+                        Log.Add($"Failed to insert object {obj.codigo} in MaeCue");
+                }
+
+                foreach (var obj in updated)
+                {
+                    if (!RestController.PutMaeCue(obj.Item1, obj.Item2, DbFolder))
+                        Log.Add($"Failed to update object {obj.Item1} in MaeCue");
                 }
             }
         }
@@ -213,7 +226,7 @@ namespace Middleware.Controller
             {
                 foreach (var pro in temp.GetProperties())
                 {
-                    if (pro.Name == column.ColumnName)
+                    if (pro.Name.ToLower().Equals(column.ColumnName.ToLower()))
                         pro.SetValue(obj, dr[column.ColumnName], null);
                     else
                         continue;
