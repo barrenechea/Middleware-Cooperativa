@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Reflection;
+using System.Threading;
 using Hardcodet.Wpf.TaskbarNotification;
 using MahApps.Metro.Controls.Dialogs;
 using Middleware.Controller;
@@ -21,6 +18,8 @@ namespace Middleware.GUI
     {
         #region Attributes
         private readonly VFPMonController _monitor;
+        private readonly BackgroundWorker _syncLabelWorker;
+        private bool _close;
         #endregion
         #region Constructor
         public Main()
@@ -32,6 +31,12 @@ namespace Middleware.GUI
             PrepareTrayIcon();
             
             ShowBalloon("El sistema de sincronización se está ejecutando en segundo plano");
+
+            _close = false;
+            _syncLabelWorker = new BackgroundWorker{ WorkerReportsProgress = true, WorkerSupportsCancellation = true };
+            _syncLabelWorker.DoWork += SyncLabelWorkerOnDoWork;
+            _syncLabelWorker.ProgressChanged += SyncLabelWorkerOnProgressChanged;
+
         }
         #endregion
         #region Methods
@@ -86,6 +91,8 @@ namespace Middleware.GUI
 
         protected override void OnClosing(CancelEventArgs e)
         {
+            _close = true;
+            _syncLabelWorker.CancelAsync();
             _monitor.Stop();
             TaskIcon.Dispose();
             base.OnClosing(e);
@@ -158,15 +165,29 @@ namespace Middleware.GUI
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
             PrepareSettings();
+            _syncLabelWorker.RunWorkerAsync();
             if (!_monitor.Start()) ShowNormalDialog("Error", "Verifique su configuración");
 
             LblDrive.Content = _monitor.Drive;
             LblDbFolder.Content = _monitor.DbFolder;
             LblFoxProStatus.Content = _monitor.IsRunning ? "Operacional" : "Error";
-            LblOnlineStatus.Content = "Detenido";
-            //Todo eliminar estado online
 
             if (_monitor.IsRunning) WindowState = WindowState.Minimized;
+        }
+        #endregion
+        #region Worker methods
+        private void SyncLabelWorkerOnDoWork(object sender, DoWorkEventArgs e)
+        {
+            while (!_close)
+            {
+                ((BackgroundWorker) sender).ReportProgress(0);
+                Thread.Sleep(500);
+            }
+            e.Cancel = true;
+        }
+        private void SyncLabelWorkerOnProgressChanged(object sender, ProgressChangedEventArgs p)
+        {
+            LblLastSync.Content = _monitor.LastSync;
         }
         #endregion
     }

@@ -31,7 +31,7 @@ namespace Middleware.Controller
 
                 using (var dataAdapter = new OleDbDataAdapter())
                 {
-                    const string query = "select * from sesion order by numero";
+                    const string query = "select * from sesion order by numero, linea";
 
                     using (var dbCommand = new OleDbCommand(query, dbConnection))
                     {

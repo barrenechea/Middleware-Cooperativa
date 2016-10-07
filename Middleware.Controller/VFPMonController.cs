@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using Middleware.Models.Local;
-using RestSharp;
 
 namespace Middleware.Controller
 {
@@ -19,6 +12,7 @@ namespace Middleware.Controller
         private IniParser _parser;
         public string Drive { get; private set; }
         public string DbFolder { get; private set; }
+        public string LastSync { get; private set; }
         private FileSystemWatcher _foxProWatcher;
         public bool IsRunning { get; private set; }
         #endregion
@@ -27,6 +21,7 @@ namespace Middleware.Controller
         {
             IniRead();
             IsRunning = false;
+            LastSync = "En espera";
         }
         #endregion
         #region Methods
@@ -53,7 +48,6 @@ namespace Middleware.Controller
                 Log.Add("Se creó el archivo config.ini");
             }
         }
-
         private bool ValidateConfig()
         {
             if (Drive.Equals(string.Empty) || DbFolder.Equals(string.Empty)) return false;
@@ -61,7 +55,6 @@ namespace Middleware.Controller
             return File.Exists($"{Drive}DRYSOFT\\DRYCON\\{DbFolder}sesion.dbf") && File.Exists($"{Drive}DRYSOFT\\DRYCON\\{DbFolder}tabanco.dbf") &&
                    File.Exists($"{Drive}DRYSOFT\\DRYCON\\{DbFolder}tabaux10.dbf") && File.Exists($"{Drive}DRYSOFT\\DRYCON\\{DbFolder}mae_cue.dbf");
         }
-
         public bool ChangeConfig(string drive, string folder)
         {
             if(IsRunning) { Stop();}
@@ -72,7 +65,6 @@ namespace Middleware.Controller
             Log.Add("Se actualizó el archivo config.ini");
             return Start();
         }
-
         public bool Start()
         {
             if (!ValidateConfig())
@@ -107,7 +99,6 @@ namespace Middleware.Controller
                 return false;
             }
         }
-
         private void FileChanged(object sender, FileSystemEventArgs e)
         {
             if (e.Name.ToLower().Contains("sesion"))
@@ -122,13 +113,17 @@ namespace Middleware.Controller
 
                 foreach (var obj in news)
                 {
-                    if (!RestController.PostSesion(obj, DbFolder))
+                    if (RestController.PostSesion(obj, DbFolder))
+                        LastSync = DateTime.Now.ToLongTimeString();
+                    else
                         Log.Add($"Failed to insert object {obj.numero} in Sesion");
                 }
 
                 foreach (var obj in updated)
                 {
-                    if (!RestController.PutSesion(obj.Item1, obj.Item2, DbFolder))
+                    if (RestController.PutSesion(obj.Item1, obj.Item2, DbFolder))
+                        LastSync = DateTime.Now.ToLongTimeString();
+                    else
                         Log.Add($"Failed to update object {obj.Item1} in Sesion");
                 }
 
@@ -145,13 +140,17 @@ namespace Middleware.Controller
 
                 foreach (var obj in news)
                 {
-                    if (!RestController.PostTabanco(obj, DbFolder))
+                    if (RestController.PostTabanco(obj, DbFolder))
+                        LastSync = DateTime.Now.ToLongTimeString();
+                    else
                         Log.Add($"Failed to insert object {obj.codbanco} in Tabanco");
                 }
 
                 foreach (var obj in updated)
                 {
-                    if (!RestController.PutTabanco(obj.Item1, obj.Item2, DbFolder))
+                    if (RestController.PutTabanco(obj.Item1, obj.Item2, DbFolder))
+                        LastSync = DateTime.Now.ToLongTimeString();
+                    else
                         Log.Add($"Failed to update object {obj.Item1} in Tabanco");
                 }
             }
@@ -168,13 +167,17 @@ namespace Middleware.Controller
 
                 foreach (var obj in news)
                 {
-                    if (!RestController.PostTabaux10(obj, DbFolder))
+                    if (RestController.PostTabaux10(obj, DbFolder))
+                        LastSync = DateTime.Now.ToLongTimeString();
+                    else
                         Log.Add($"Failed to insert object {obj.kod} in Tabaux10");
                 }
 
                 foreach (var obj in updated)
                 {
-                    if (!RestController.PutTabaux10(obj.Item1, obj.Item2, DbFolder))
+                    if (RestController.PutTabaux10(obj.Item1, obj.Item2, DbFolder))
+                        LastSync = DateTime.Now.ToLongTimeString();
+                    else
                         Log.Add($"Failed to update object {obj.Item1} in Tabaux10");
                 }
             }
@@ -190,18 +193,21 @@ namespace Middleware.Controller
 
                 foreach (var obj in news)
                 {
-                    if (!RestController.PostMaeCue(obj, DbFolder))
+                    if (RestController.PostMaeCue(obj, DbFolder))
+                        LastSync = DateTime.Now.ToLongTimeString();
+                    else
                         Log.Add($"Failed to insert object {obj.codigo} in MaeCue");
                 }
 
                 foreach (var obj in updated)
                 {
-                    if (!RestController.PutMaeCue(obj.Item1, obj.Item2, DbFolder))
+                    if (RestController.PutMaeCue(obj.Item1, obj.Item2, DbFolder))
+                        LastSync = DateTime.Now.ToLongTimeString();
+                    else
                         Log.Add($"Failed to update object {obj.Item1} in MaeCue");
                 }
             }
         }
-
         public void Stop()
         {
             if (!IsRunning) return;
@@ -209,30 +215,6 @@ namespace Middleware.Controller
             _foxProWatcher.Dispose();
             IsRunning = false;
             Log.Add($"Se detuvo monitoreo al directorio {Drive}DRYSOFT\\DRYCON\\{DbFolder}");
-        }
-        #endregion
-
-        #region Datatable to List methods
-        private List<T> ConvertDataTable<T>(DataTable dt)
-        {
-            return (from DataRow row in dt.Rows select GetItem<T>(row)).ToList();
-        }
-        private T GetItem<T>(DataRow dr)
-        {
-            var temp = typeof(T);
-            var obj = Activator.CreateInstance<T>();
-
-            foreach (DataColumn column in dr.Table.Columns)
-            {
-                foreach (var pro in temp.GetProperties())
-                {
-                    if (pro.Name.ToLower().Equals(column.ColumnName.ToLower()))
-                        pro.SetValue(obj, dr[column.ColumnName], null);
-                    else
-                        continue;
-                }
-            }
-            return obj;
         }
         #endregion
     }
