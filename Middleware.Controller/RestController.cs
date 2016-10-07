@@ -22,7 +22,7 @@ namespace Middleware.Controller
             var response = Client.Execute<List<APISesion>>(request);
             Debug.WriteLine("GET: Sesion table fetched from API");
 
-            return response.Data ?? new List<APISesion>();
+            return response.Data;
         }
 
         public static bool PostSesion(VFPSesion sesion, string dbFolder)
@@ -33,7 +33,7 @@ namespace Middleware.Controller
             request.AddObject(sesion);
 
             var response = Client.Execute(request);
-            Debug.WriteLine($"POST: [{sesion.numero}] {response.Content}");
+            Debug.WriteLine($"POST Sesion: [{sesion.numero}][{sesion.linea}] {response.Content}");
 
             return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
         }
@@ -47,7 +47,7 @@ namespace Middleware.Controller
             request.AddObject(sesion);
 
             var response = Client.Execute(request);
-            Debug.WriteLine($"PUT Sesion: [{id}][{sesion.numero}] {response.Content}");
+            Debug.WriteLine($"PUT Sesion: [{id}][{sesion.numero}][{sesion.linea}] {response.Content}");
 
             return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
         }
@@ -62,7 +62,7 @@ namespace Middleware.Controller
             var response = Client.Execute<List<APIMaeCue>>(request);
             Debug.WriteLine("GET: MaeCue table fetched from API");
 
-            return response.Data ?? new List<APIMaeCue>();
+            return response.Data;
         }
 
         public static bool PostMaeCue(VFPMaeCue maeCue, string dbFolder)
@@ -73,7 +73,7 @@ namespace Middleware.Controller
             request.AddObject(maeCue);
 
             var response = Client.Execute(request);
-            Debug.WriteLine($"POST: [{maeCue.codigo}] {response.Content}");
+            Debug.WriteLine($"POST MaeCue: [{maeCue.codigo}] {response.Content}");
 
             return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
         }
@@ -102,7 +102,7 @@ namespace Middleware.Controller
             var response = Client.Execute<List<APITabanco>>(request);
             Debug.WriteLine("GET: Tabanco table fetched from API");
 
-            return response.Data ?? new List<APITabanco>();
+            return response.Data;
         }
 
         public static bool PostTabanco(VFPTabanco tabanco, string dbFolder)
@@ -113,7 +113,7 @@ namespace Middleware.Controller
             request.AddObject(tabanco);
 
             var response = Client.Execute(request);
-            Debug.WriteLine($"POST: [{tabanco.codbanco}] {response.Content}");
+            Debug.WriteLine($"POST Tabanco: [{tabanco.codbanco}] {response.Content}");
 
             return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
         }
@@ -142,7 +142,7 @@ namespace Middleware.Controller
             var response = Client.Execute<List<APITabaux10>>(request);
             Debug.WriteLine("GET: Tabaux10 table fetched from API");
 
-            return response.Data ?? new List<APITabaux10>();
+            return response.Data;
         }
 
         public static bool PostTabaux10(VFPTabaux10 tabaux10, string dbFolder)
@@ -153,7 +153,7 @@ namespace Middleware.Controller
             request.AddObject(tabaux10);
 
             var response = Client.Execute(request);
-            Debug.WriteLine($"POST: [{tabaux10.kod}] {response.Content}");
+            Debug.WriteLine($"POST Tabaux10: [{tabaux10.kod}] {response.Content}");
 
             return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
         }
@@ -171,7 +171,5 @@ namespace Middleware.Controller
             return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
         }
         #endregion
-
-        // TERMINADO! Creo
     }
 }

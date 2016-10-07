@@ -105,8 +105,15 @@ namespace Middleware.Controller
             {
                 Log.Add($"Cambio en el archivo {e.Name}");
                 
-                var localList = VFPConController.GetSesionList();
                 var apiList = RestController.GetSesion(DbFolder);
+
+                if (apiList == null)
+                {
+                    LastSync = "Error de conectividad";
+                    return;
+                }
+
+                var localList = VFPConController.GetSesionList();
 
                 var news = ComparisonController.GetNewObjects(localList, apiList);
                 var updated = ComparisonController.GetUpdatedObjects(localList, apiList);
@@ -131,9 +138,16 @@ namespace Middleware.Controller
             else if (e.Name.ToLower().Contains("tabanco"))
             {
                 Log.Add($"Cambio en el archivo {e.Name}");
+                
+                var apiList = RestController.GetTabanco(DbFolder);
+
+                if (apiList == null)
+                {
+                    LastSync = "Error de conectividad";
+                    return;
+                }
 
                 var localList = VFPConController.GetTabancoList();
-                var apiList = RestController.GetTabanco(DbFolder);
 
                 var news = ComparisonController.GetNewObjects(localList, apiList);
                 var updated = ComparisonController.GetUpdatedObjects(localList, apiList);
@@ -158,9 +172,15 @@ namespace Middleware.Controller
             {
                 Log.Add($"Cambio en el archivo {e.Name}");
 
-                var localList = VFPConController.GetTabaux10List();
                 var apiList = RestController.GetTabaux10(DbFolder);
 
+                if (apiList == null)
+                {
+                    LastSync = "Error de conectividad";
+                    return;
+                }
+
+                var localList = VFPConController.GetTabaux10List();
 
                 var news = ComparisonController.GetNewObjects(localList, apiList);
                 var updated = ComparisonController.GetUpdatedObjects(localList, apiList);
@@ -185,9 +205,16 @@ namespace Middleware.Controller
             {
                 Log.Add($"Cambio en el archivo {e.Name}");
 
-                var localList = VFPConController.GetMaeCueList();
                 var apiList = RestController.GetMaeCue(DbFolder);
-                
+
+                if (apiList == null)
+                {
+                    LastSync = "Error de conectividad";
+                    return;
+                }
+
+                var localList = VFPConController.GetMaeCueList();
+
                 var news = ComparisonController.GetNewObjects(localList, apiList);
                 var updated = ComparisonController.GetUpdatedObjects(localList, apiList);
 
