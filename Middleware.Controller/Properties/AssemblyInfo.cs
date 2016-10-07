@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // La información general de un ensamblado se controla mediante el siguiente 
 // conjunto de atributos. Cambie estos valores de atributo para modificar la información
 // asociada con un ensamblado.
-[assembly: AssemblyTitle("Middleware.Controller")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Middleware Controller")]
+[assembly: AssemblyDescription("Controlador de las funcionalidades del Middleware")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Middleware.Controller")]
+[assembly: AssemblyCompany("Cooperativa de Servicios Alameda Maipú")]
+[assembly: AssemblyProduct("Middleware Controller")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
