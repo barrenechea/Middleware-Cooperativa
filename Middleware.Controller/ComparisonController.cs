@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Middleware.Models.API;
 using Middleware.Models.Local;
 
@@ -11,14 +9,13 @@ namespace Middleware.Controller
     public static class ComparisonController
     {
         #region Sesion
-
         public static List<VFPSesion> GetNewObjects(List<VFPSesion> vfpList, List<APISesion> apiList)
         {
-            throw new NotImplementedException();
+            return vfpList.Where(vfp => !apiList.Exists(api => api.numero == vfp.numero && api.linea == vfp.linea)).ToList();
         }
         public static List<Tuple<int, VFPSesion>> GetUpdatedObjects(List<VFPSesion> vfpList, List<APISesion> apiList)
         {
-            throw new NotImplementedException();
+            return (from vfp in vfpList from api in apiList.Where(api => api.numero == vfp.numero && vfp.linea == api.linea) where !vfp.tipo.Equals(api.tipo) || vfp.correl != api.correl || vfp.va_ifrs != api.va_ifrs || vfp.canbco != api.canbco || !vfp.banco.Equals(api.banco) || !vfp.cuenta.Equals(api.cuenta) || vfp.cheque != api.cheque || !vfp.fecha.Equals(api.fecha) || !vfp.glosa.Equals(api.glosa) || !vfp.benefi.Equals(api.benefi) || !vfp.fechach.Equals(api.fechach) || !vfp.area.Equals(api.area) || !vfp.codigo.Equals(api.codigo) || !vfp.tipdoc.Equals(api.tipdoc) || !vfp.fechafac.Equals(api.fechafac) || vfp.fac != api.fac || vfp.corrfac != api.corrfac || !vfp.detalle1.Equals(api.detalle1) || !vfp.detalle2.Equals(api.detalle2) || !vfp.detalle3.Equals(api.detalle3) || !vfp.detalle4.Equals(api.detalle4) || !vfp.imp.Equals(api.imp) || vfp.debe != api.debe || vfp.haber != api.haber || vfp.estado != api.estado select new Tuple<int, VFPSesion>(api.id, vfp)).ToList();
         }
         #endregion
         #region Tabanco
@@ -52,6 +49,5 @@ namespace Middleware.Controller
             return (from vfp in vfpList from api in apiList.Where(api => api.kod.Equals(vfp.kod)) where !vfp.tipo.Equals(api.tipo) || !vfp.sucur.Equals(api.sucur) || !vfp.desc.Equals(api.desc) || vfp.orden_patr != api.orden_patr || !vfp.estado.Equals(api.estado) || !vfp.giro.Equals(api.giro) || vfp.tipo_calle != api.tipo_calle || !vfp.direccion.Equals(api.direccion) || !vfp.num.Equals(api.num) || !vfp.depto.Equals(api.depto) || !vfp.sector.Equals(api.sector) || !vfp.edificio.Equals(api.edificio) || vfp.num_piso != api.num_piso || !vfp.entre_call.Equals(api.entre_call) || !vfp.codcom.Equals(api.codcom) || !vfp.comuna.Equals(api.comuna) || !vfp.nom_region.Equals(api.nom_region) || vfp.region != api.region || !vfp.codciu.Equals(api.codciu) || !vfp.ciudad.Equals(api.ciudad) || !vfp.cod_postal.Equals(api.cod_postal) || !vfp.mail.Equals(api.mail) || !vfp.telefono.Equals(api.telefono) || !vfp.anexo.Equals(api.anexo) || !vfp.fax.Equals(api.fax) || !vfp.telefono_c.Equals(api.telefono_c) || !vfp.fax_c.Equals(api.fax_c) || !vfp.internet.Equals(api.internet) || !vfp.cod_area.Equals(api.cod_area) || !vfp.celular.Equals(api.celular) || !vfp.casilla.Equals(api.casilla) || !vfp.fecha.Equals(api.fecha) || !vfp.fpago.Equals(api.fpago) || !vfp.contacto.Equals(api.contacto) || !vfp.telconta.Equals(api.telconta) || !vfp.vendedor.Equals(api.vendedor) || !vfp.observ.Equals(api.observ) || vfp.saldoau != api.saldoau || !vfp.exporta.Equals(api.exporta) || vfp.credito != api.credito || !vfp.zona.Equals(api.zona) || !vfp.direccions.Equals(api.direccions) || !vfp.telefonos.Equals(api.telefonos) || !vfp.mails.Equals(api.mails) || !vfp.contactos.Equals(api.contactos) || !vfp.codcoms.Equals(api.codcoms) || !vfp.comunas.Equals(api.comunas) || !vfp.codcius.Equals(api.codcius) || !vfp.ciudads.Equals(api.ciudads) || vfp.concredito != api.concredito || !vfp.codpais.Equals(api.codpais) || !vfp.pais.Equals(api.pais) || !vfp.segmento.Equals(api.segmento) select new Tuple<int, VFPTabaux10>(api.id, vfp)).ToList();
         }
         #endregion
-
     }
 }
