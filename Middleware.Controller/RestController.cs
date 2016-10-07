@@ -22,7 +22,9 @@ namespace Middleware.Controller
             var response = Client.Execute<List<APISesion>>(request);
             Debug.WriteLine("GET: Sesion table fetched from API");
 
-            return response.Data;
+            return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK
+                ? (response.Data ?? new List<APISesion>())
+                : null;
         }
 
         public static bool PostSesion(VFPSesion sesion, string dbFolder)
@@ -62,7 +64,9 @@ namespace Middleware.Controller
             var response = Client.Execute<List<APIMaeCue>>(request);
             Debug.WriteLine("GET: MaeCue table fetched from API");
 
-            return response.Data;
+            return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK
+                ? (response.Data ?? new List<APIMaeCue>())
+                : null;
         }
 
         public static bool PostMaeCue(VFPMaeCue maeCue, string dbFolder)
@@ -102,7 +106,9 @@ namespace Middleware.Controller
             var response = Client.Execute<List<APITabanco>>(request);
             Debug.WriteLine("GET: Tabanco table fetched from API");
 
-            return response.Data;
+            return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK
+                ? (response.Data ?? new List<APITabanco>())
+                : null;
         }
 
         public static bool PostTabanco(VFPTabanco tabanco, string dbFolder)
@@ -142,7 +148,9 @@ namespace Middleware.Controller
             var response = Client.Execute<List<APITabaux10>>(request);
             Debug.WriteLine("GET: Tabaux10 table fetched from API");
 
-            return response.Data;
+            return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK
+                ? (response.Data ?? new List<APITabaux10>())
+                : null;
         }
 
         public static bool PostTabaux10(VFPTabaux10 tabaux10, string dbFolder)
