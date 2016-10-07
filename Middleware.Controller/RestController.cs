@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
-using Middleware.Models.API;
-using Middleware.Models.Local;
+using Middleware.Model.API;
+using Middleware.Model.Local;
 using RestSharp;
 
 namespace Middleware.Controller

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
-using Middleware.Models.Local;
+using Middleware.Model.Local;
 
 namespace Middleware.Controller
 {

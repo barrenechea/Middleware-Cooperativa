@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Middleware.Models.API;
-using Middleware.Models.Local;
+using Middleware.Model.API;
+using Middleware.Model.Local;
 
 namespace Middleware.Controller
 {

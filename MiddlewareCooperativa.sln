@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Middleware.Controller", "Mi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Middleware.GUI", "Middleware.GUI\Middleware.GUI.csproj", "{39397017-6244-4C02-B8FF-7D1A121159D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Middleware.Models", "Middleware.Models\Middleware.Models.csproj", "{A398B925-3DAE-475D-B14B-FC0C6190EE03}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Middleware.Model", "Middleware.Model\Middleware.Model.csproj", "{CF72F9BE-81AA-4677-8AFE-00E1D99F5145}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{39397017-6244-4C02-B8FF-7D1A121159D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39397017-6244-4C02-B8FF-7D1A121159D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39397017-6244-4C02-B8FF-7D1A121159D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A398B925-3DAE-475D-B14B-FC0C6190EE03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A398B925-3DAE-475D-B14B-FC0C6190EE03}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A398B925-3DAE-475D-B14B-FC0C6190EE03}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A398B925-3DAE-475D-B14B-FC0C6190EE03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF72F9BE-81AA-4677-8AFE-00E1D99F5145}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF72F9BE-81AA-4677-8AFE-00E1D99F5145}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF72F9BE-81AA-4677-8AFE-00E1D99F5145}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF72F9BE-81AA-4677-8AFE-00E1D99F5145}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
