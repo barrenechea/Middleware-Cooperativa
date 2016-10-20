@@ -9,8 +9,8 @@ namespace Middleware.Controller
 {
     public static class RestController
     {
-        private static readonly RestClient Client = new RestClient("http://localhost:8000/api");
-        private const string AuthKey = "@0w*mNg*bYHdXH6-";
+        private static readonly RestClient Client = new RestClient("http://gestioncooperativa.dev/api");
+        private const string AuthKey = "cooperativa";
 
         #region Sesion
         public static List<APISesion> GetSesion(string dbFolder)
@@ -50,6 +50,18 @@ namespace Middleware.Controller
 
             var response = Client.Execute(request);
             Debug.WriteLine($"PUT Sesion: [{id}][{sesion.numero}][{sesion.linea}] {response.Content}");
+
+            return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
+        }
+
+        public static bool DeleteSesion(int id)
+        {
+            var request = new RestRequest("sesion/{id}", Method.DELETE);
+            request.AddHeader("authorization", AuthKey);
+            request.AddUrlSegment("id", id.ToString());
+
+            var response = Client.Execute(request);
+            Debug.WriteLine($"DELETE Sesion: [{id}] {response.Content}");
 
             return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
         }
@@ -95,6 +107,18 @@ namespace Middleware.Controller
 
             return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
         }
+
+        public static bool DeleteMaeCue(int id)
+        {
+            var request = new RestRequest("maecue/{id}", Method.DELETE);
+            request.AddHeader("authorization", AuthKey);
+            request.AddUrlSegment("id", id.ToString());
+
+            var response = Client.Execute(request);
+            Debug.WriteLine($"DELETE MaeCue: [{id}] {response.Content}");
+
+            return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
+        }
         #endregion
         #region Tabanco
         public static List<APITabanco> GetTabanco(string dbFolder)
@@ -137,6 +161,18 @@ namespace Middleware.Controller
 
             return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
         }
+
+        public static bool DeleteTabanco(int id)
+        {
+            var request = new RestRequest("tabanco/{id}", Method.DELETE);
+            request.AddHeader("authorization", AuthKey);
+            request.AddUrlSegment("id", id.ToString());
+
+            var response = Client.Execute(request);
+            Debug.WriteLine($"DELETE Tabanco: [{id}] {response.Content}");
+
+            return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
+        }
         #endregion
         #region Tabaux10
         public static List<APITabaux10> GetTabaux10(string dbFolder)
@@ -175,6 +211,18 @@ namespace Middleware.Controller
 
             var response = Client.Execute(request);
             Debug.WriteLine($"PUT Tabaux10: [{id}][{tabaux10.kod}] {response.Content}");
+
+            return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
+        }
+
+        public static bool DeleteTabaux10(int id)
+        {
+            var request = new RestRequest("tabaux10/{id}", Method.DELETE);
+            request.AddHeader("authorization", AuthKey);
+            request.AddUrlSegment("id", id.ToString());
+
+            var response = Client.Execute(request);
+            Debug.WriteLine($"DELETE Tabaux10: [{id}] {response.Content}");
 
             return response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK;
         }

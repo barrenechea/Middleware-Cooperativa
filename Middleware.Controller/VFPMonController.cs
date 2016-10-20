@@ -117,6 +117,7 @@ namespace Middleware.Controller
 
                 var news = ComparisonController.GetNewObjects(localList, apiList);
                 var updated = ComparisonController.GetUpdatedObjects(localList, apiList);
+                var deleted = ComparisonController.GetDeletedObjects(localList, apiList);
 
                 foreach (var obj in news)
                 {
@@ -132,6 +133,14 @@ namespace Middleware.Controller
                         LastSync = DateTime.Now.ToLongTimeString();
                     else
                         Log.Add($"Failed to update object {obj.Item1} in Sesion");
+                }
+
+                foreach (var obj in deleted)
+                {
+                    if (RestController.DeleteSesion(obj.id))
+                        LastSync = DateTime.Now.ToLongTimeString();
+                    else
+                        Log.Add($"Failed to delete object {obj.id} in Sesion");
                 }
 
             }
@@ -151,6 +160,7 @@ namespace Middleware.Controller
 
                 var news = ComparisonController.GetNewObjects(localList, apiList);
                 var updated = ComparisonController.GetUpdatedObjects(localList, apiList);
+                var deleted = ComparisonController.GetDeletedObjects(localList, apiList);
 
                 foreach (var obj in news)
                 {
@@ -166,6 +176,14 @@ namespace Middleware.Controller
                         LastSync = DateTime.Now.ToLongTimeString();
                     else
                         Log.Add($"Failed to update object {obj.Item1} in Tabanco");
+                }
+
+                foreach (var obj in deleted)
+                {
+                    if (RestController.DeleteSesion(obj.id))
+                        LastSync = DateTime.Now.ToLongTimeString();
+                    else
+                        Log.Add($"Failed to delete object {obj.id} in Tabanco");
                 }
             }
             else if (e.Name.ToLower().Contains("tabaux10"))
@@ -184,6 +202,7 @@ namespace Middleware.Controller
 
                 var news = ComparisonController.GetNewObjects(localList, apiList);
                 var updated = ComparisonController.GetUpdatedObjects(localList, apiList);
+                var deleted = ComparisonController.GetDeletedObjects(localList, apiList);
 
                 foreach (var obj in news)
                 {
@@ -199,6 +218,14 @@ namespace Middleware.Controller
                         LastSync = DateTime.Now.ToLongTimeString();
                     else
                         Log.Add($"Failed to update object {obj.Item1} in Tabaux10");
+                }
+
+                foreach (var obj in deleted)
+                {
+                    if (RestController.DeleteSesion(obj.id))
+                        LastSync = DateTime.Now.ToLongTimeString();
+                    else
+                        Log.Add($"Failed to delete object {obj.id} in Tabaux10");
                 }
             }
             else if (e.Name.ToLower().Contains("mae_cue"))
@@ -217,6 +244,7 @@ namespace Middleware.Controller
 
                 var news = ComparisonController.GetNewObjects(localList, apiList);
                 var updated = ComparisonController.GetUpdatedObjects(localList, apiList);
+                var deleted = ComparisonController.GetDeletedObjects(localList, apiList);
 
                 foreach (var obj in news)
                 {
@@ -232,6 +260,14 @@ namespace Middleware.Controller
                         LastSync = DateTime.Now.ToLongTimeString();
                     else
                         Log.Add($"Failed to update object {obj.Item1} in MaeCue");
+                }
+
+                foreach (var obj in deleted)
+                {
+                    if (RestController.DeleteSesion(obj.id))
+                        LastSync = DateTime.Now.ToLongTimeString();
+                    else
+                        Log.Add($"Failed to delete object {obj.id} in MaeCue");
                 }
             }
         }
