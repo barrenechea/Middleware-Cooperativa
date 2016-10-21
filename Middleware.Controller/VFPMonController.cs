@@ -41,6 +41,7 @@ namespace Middleware.Controller
                     writer.WriteLine("[MIDDLEWARE]");
                     writer.WriteLine("DRIVE=");
                     writer.WriteLine("DBFOLDER=");
+                    writer.WriteLine("URL=");
                 }
                 Drive = string.Empty;
                 DbFolder = string.Empty;

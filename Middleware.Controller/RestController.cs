@@ -9,8 +9,9 @@ namespace Middleware.Controller
 {
     public static class RestController
     {
-        private static readonly RestClient Client = new RestClient("http://gestioncooperativa.dev/api");
-        private const string AuthKey = "cooperativa";
+        private static readonly IniParser Parser = new IniParser("config.ini");
+        private static readonly RestClient Client = new RestClient(Parser.GetSetting("MIDDLEWARE", "URL"));
+        private const string AuthKey = "B=$T4@F6%sfhT^Hz";
 
         #region Sesion
         public static List<APISesion> GetSesion(string dbFolder)
