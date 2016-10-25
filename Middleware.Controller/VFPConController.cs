@@ -173,7 +173,7 @@ namespace Middleware.Controller
                 var tabanco = new VFPTabaux10
                 {
                     tipo = resultSet.Rows[i]["TIPO"].ToString().Trim(),
-                    kod = resultSet.Rows[i]["KOD"].ToString().Trim(),
+                    kod = resultSet.Rows[i]["KOD"].ToString().Trim().Replace(" ", ""),
                     sucur = resultSet.Rows[i]["SUCUR"].ToString().Trim(),
                     desc = resultSet.Rows[i]["DESC"].ToString().Trim(),
                     orden_patr = Convert.ToInt32(resultSet.Rows[i]["ORDEN_PATR"]),
