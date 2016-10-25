@@ -235,7 +235,7 @@ namespace Middleware.Controller
 
                     foreach (var obj in apiTabancos)
                     {
-                        if (RestController.DeleteSesion(obj.id))
+                        if (RestController.DeleteTabanco(obj.id))
                             LastSync = DateTime.Now.ToLongTimeString();
                         else
                             Log.Add($"Failed to delete object {obj.id} in Tabanco");
@@ -276,7 +276,7 @@ namespace Middleware.Controller
 
                     foreach (var obj in apiTabaux10S)
                     {
-                        if (RestController.DeleteSesion(obj.id))
+                        if (RestController.DeleteTabaux10(obj.id))
                             LastSync = DateTime.Now.ToLongTimeString();
                         else
                             Log.Add($"Failed to delete object {obj.id} in Tabaux10");
@@ -317,7 +317,7 @@ namespace Middleware.Controller
 
                     foreach (var obj in deleted)
                     {
-                        if (RestController.DeleteSesion(obj.id))
+                        if (RestController.DeleteMaeCue(obj.id))
                             LastSync = DateTime.Now.ToLongTimeString();
                         else
                             Log.Add($"Failed to delete object {obj.id} in MaeCue");
