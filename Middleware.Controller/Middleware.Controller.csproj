@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base64Controller.cs" />
     <Compile Include="ComparisonController.cs" />
     <Compile Include="IniParser.cs" />
     <Compile Include="Log.cs" />

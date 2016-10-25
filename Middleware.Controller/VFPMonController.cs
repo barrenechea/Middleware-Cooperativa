@@ -32,6 +32,22 @@ namespace Middleware.Controller
                 if(_parser == null) _parser = new IniParser("config.ini");
                 Drive = _parser.GetSetting("MIDDLEWARE", "DRIVE");
                 DbFolder = _parser.GetSetting("MIDDLEWARE", "DBFOLDER");
+                do
+                {
+                    try
+                    {
+                        var token = _parser.GetSetting("MIDDLEWARE", "TOKEN");
+                        if (string.IsNullOrWhiteSpace(token))
+                            break;
+                        Base64Controller.Base64Decode(token);
+                    }
+                    catch
+                    {
+                        _parser.AddSetting("MIDDLEWARE", "TOKEN", Base64Controller.Base64Encode(_parser.GetSetting("MIDDLEWARE", "TOKEN")));
+                        _parser.SaveSettings();
+                    }
+                } while (false);
+                
             }
             else
             {
@@ -42,6 +58,7 @@ namespace Middleware.Controller
                     writer.WriteLine("DRIVE=");
                     writer.WriteLine("DBFOLDER=");
                     writer.WriteLine("URL=");
+                    writer.WriteLine("TOKEN=");
                 }
                 Drive = string.Empty;
                 DbFolder = string.Empty;

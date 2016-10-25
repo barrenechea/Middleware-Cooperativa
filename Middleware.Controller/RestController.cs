@@ -11,7 +11,7 @@ namespace Middleware.Controller
     {
         private static readonly IniParser Parser = new IniParser("config.ini");
         private static readonly RestClient Client = new RestClient(Parser.GetSetting("MIDDLEWARE", "URL"));
-        private const string AuthKey = "B=$T4@F6%sfhT^Hz";
+        private static readonly string AuthKey = Base64Controller.Base64Decode(Parser.GetSetting("MIDDLEWARE", "TOKEN"));
 
         #region Sesion
         public static List<APISesion> GetSesion(string dbFolder)
