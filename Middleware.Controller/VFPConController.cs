@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.Globalization;
 using Middleware.Model.Local;
 
 namespace Middleware.Controller
@@ -175,7 +176,7 @@ namespace Middleware.Controller
                     tipo = resultSet.Rows[i]["TIPO"].ToString().Trim(),
                     kod = resultSet.Rows[i]["KOD"].ToString().Trim().Replace(" ", ""),
                     sucur = resultSet.Rows[i]["SUCUR"].ToString().Trim(),
-                    desc = resultSet.Rows[i]["DESC"].ToString().Trim(),
+                    desc = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(resultSet.Rows[i]["DESC"].ToString().Trim().ToLower()),
                     orden_patr = Convert.ToInt32(resultSet.Rows[i]["ORDEN_PATR"]),
                     estado = resultSet.Rows[i]["ESTADO"].ToString().Trim(),
                     giro = resultSet.Rows[i]["GIRO"].ToString().Trim(),
