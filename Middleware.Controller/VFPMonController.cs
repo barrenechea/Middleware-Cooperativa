@@ -158,6 +158,7 @@ namespace Middleware.Controller
         }
         private void CheckChanges(Table table)
         {
+            IniRead();
             switch (table)
             {
                 case Table.Sesion:
