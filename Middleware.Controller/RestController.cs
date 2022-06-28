@@ -16,7 +16,7 @@ namespace Middleware.Controller
         #region Sesion
         public static List<APISesion> GetSesion(string dbFolder)
         {
-            var request = new RestRequest("sesion", Method.GET);
+            var request = new RestRequest("sesion", Method.Get);
             request.AddHeader("authorization", AuthKey);
             request.AddParameter("vfptable", dbFolder);
 
@@ -30,7 +30,7 @@ namespace Middleware.Controller
 
         public static bool PostSesion(VFPSesion sesion, string dbFolder)
         {
-            var request = new RestRequest("sesion", Method.POST);
+            var request = new RestRequest("sesion", Method.Post);
             request.AddHeader("authorization", AuthKey);
             request.AddParameter("vfptable", dbFolder);
             request.AddObject(sesion);
@@ -43,7 +43,7 @@ namespace Middleware.Controller
 
         public static bool PutSesion(int id, VFPSesion sesion, string dbFolder)
         {
-            var request = new RestRequest("sesion/{id}", Method.PUT);
+            var request = new RestRequest("sesion/{id}", Method.Put);
             request.AddHeader("authorization", AuthKey);
             request.AddUrlSegment("id", id.ToString());
             request.AddParameter("vfptable", dbFolder);
@@ -57,7 +57,7 @@ namespace Middleware.Controller
 
         public static bool DeleteSesion(int id)
         {
-            var request = new RestRequest("sesion/{id}", Method.DELETE);
+            var request = new RestRequest("sesion/{id}", Method.Delete);
             request.AddHeader("authorization", AuthKey);
             request.AddUrlSegment("id", id.ToString());
 
@@ -70,7 +70,7 @@ namespace Middleware.Controller
         #region MaeCue
         public static List<APIMaeCue> GetMaeCue(string dbFolder)
         {
-            var request = new RestRequest("maecue", Method.GET);
+            var request = new RestRequest("maecue", Method.Get);
             request.AddHeader("authorization", AuthKey);
             request.AddParameter("vfptable", dbFolder);
 
@@ -84,7 +84,7 @@ namespace Middleware.Controller
 
         public static bool PostMaeCue(VFPMaeCue maeCue, string dbFolder)
         {
-            var request = new RestRequest("maecue", Method.POST);
+            var request = new RestRequest("maecue", Method.Post);
             request.AddHeader("authorization", AuthKey);
             request.AddParameter("vfptable", dbFolder);
             request.AddObject(maeCue);
@@ -97,7 +97,7 @@ namespace Middleware.Controller
 
         public static bool PutMaeCue(int id, VFPMaeCue maeCue, string dbFolder)
         {
-            var request = new RestRequest("maecue/{id}", Method.PUT);
+            var request = new RestRequest("maecue/{id}", Method.Put);
             request.AddHeader("authorization", AuthKey);
             request.AddUrlSegment("id", id.ToString());
             request.AddParameter("vfptable", dbFolder);
@@ -111,7 +111,7 @@ namespace Middleware.Controller
 
         public static bool DeleteMaeCue(int id)
         {
-            var request = new RestRequest("maecue/{id}", Method.DELETE);
+            var request = new RestRequest("maecue/{id}", Method.Delete);
             request.AddHeader("authorization", AuthKey);
             request.AddUrlSegment("id", id.ToString());
 
@@ -124,7 +124,7 @@ namespace Middleware.Controller
         #region Tabanco
         public static List<APITabanco> GetTabanco(string dbFolder)
         {
-            var request = new RestRequest("tabanco", Method.GET);
+            var request = new RestRequest("tabanco", Method.Get);
             request.AddHeader("authorization", AuthKey);
             request.AddParameter("vfptable", dbFolder);
 
@@ -138,7 +138,7 @@ namespace Middleware.Controller
 
         public static bool PostTabanco(VFPTabanco tabanco, string dbFolder)
         {
-            var request = new RestRequest("tabanco", Method.POST);
+            var request = new RestRequest("tabanco", Method.Post);
             request.AddHeader("authorization", AuthKey);
             request.AddParameter("vfptable", dbFolder);
             request.AddObject(tabanco);
@@ -151,7 +151,7 @@ namespace Middleware.Controller
 
         public static bool PutTabanco(int id, VFPTabanco tabanco, string dbFolder)
         {
-            var request = new RestRequest("tabanco/{id}", Method.PUT);
+            var request = new RestRequest("tabanco/{id}", Method.Put);
             request.AddHeader("authorization", AuthKey);
             request.AddUrlSegment("id", id.ToString());
             request.AddParameter("vfptable", dbFolder);
@@ -165,7 +165,7 @@ namespace Middleware.Controller
 
         public static bool DeleteTabanco(int id)
         {
-            var request = new RestRequest("tabanco/{id}", Method.DELETE);
+            var request = new RestRequest("tabanco/{id}", Method.Delete);
             request.AddHeader("authorization", AuthKey);
             request.AddUrlSegment("id", id.ToString());
 
@@ -178,7 +178,7 @@ namespace Middleware.Controller
         #region Tabaux10
         public static List<APITabaux10> GetTabaux10(string dbFolder)
         {
-            var request = new RestRequest("tabaux10", Method.GET);
+            var request = new RestRequest("tabaux10", Method.Get);
             request.AddHeader("authorization", AuthKey);
             request.AddParameter("vfptable", dbFolder);
 
@@ -192,7 +192,7 @@ namespace Middleware.Controller
 
         public static bool PostTabaux10(VFPTabaux10 tabaux10, string dbFolder)
         {
-            var request = new RestRequest("tabaux10", Method.POST);
+            var request = new RestRequest("tabaux10", Method.Post);
             request.AddHeader("authorization", AuthKey);
             request.AddParameter("vfptable", dbFolder);
             request.AddObject(tabaux10);
@@ -204,7 +204,7 @@ namespace Middleware.Controller
         }
         public static bool PutTabaux10(int id, VFPTabaux10 tabaux10, string dbFolder)
         {
-            var request = new RestRequest("tabaux10/{id}", Method.PUT);
+            var request = new RestRequest("tabaux10/{id}", Method.Put);
             request.AddHeader("authorization", AuthKey);
             request.AddUrlSegment("id", id.ToString());
             request.AddParameter("vfptable", dbFolder);
@@ -218,7 +218,7 @@ namespace Middleware.Controller
 
         public static bool DeleteTabaux10(int id)
         {
-            var request = new RestRequest("tabaux10/{id}", Method.DELETE);
+            var request = new RestRequest("tabaux10/{id}", Method.Delete);
             request.AddHeader("authorization", AuthKey);
             request.AddUrlSegment("id", id.ToString());
 

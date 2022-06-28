@@ -75,7 +75,7 @@ namespace Middleware.GUI
         
         private async void ShowNormalDialog(string title, string message)
         {
-            await this.ShowMessageAsync(title, message, MessageDialogStyle.Affirmative, new MetroDialogSettings { SuppressDefaultResources = true, CustomResourceDictionary = new ResourceDictionary { Source = new Uri("pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Dialogs.xaml") } });
+            await this.ShowMessageAsync(title, message, MessageDialogStyle.Affirmative, new MetroDialogSettings { CustomResourceDictionary = new ResourceDictionary { Source = new Uri("pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Dialogs.xaml") } });
         }
         #endregion
         #region Event Handler methods
